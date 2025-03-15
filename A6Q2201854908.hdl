@@ -4,11 +4,11 @@ CHIP A6Q2201854908 {
     
     PARTS:
     
-    // NOT gates to invert inputs
-    NOT(a=a, out=nota);
-    NOT(b=b, out=notb);
-    NOT(c=c, out=notc);
-    NOT(d=d, out=notd);
+    // Implement NOT gates using NAND (since NAND is always available)
+    NAND(a=a, b=a, out=nota);
+    NAND(a=b, b=b, out=notb);
+    NAND(a=c, b=c, out=notc);
+    NAND(a=d, b=d, out=notd);
     
     // Compute intermediate terms
     OR(a=c, b=d, out=or1);               // or1 = c OR d
