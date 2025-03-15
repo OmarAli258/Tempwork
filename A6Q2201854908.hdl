@@ -4,23 +4,21 @@ CHIP A6Q2201854908 {
     
     PARTS:
     
-    // Implement NOT gates using NAND (since NAND is always available)
-    NAND(a=a, b=a, out=nota);
-    NAND(a=b, b=b, out=notb);
-    NAND(a=c, b=c, out=notc);
-    NAND(a=d, b=d, out=notd);
+    // NOT gates
+    NOT(in=a, out=nota);
+    NOT(in=b, out=notb);
+    NOT(in=c, out=notc);
+    NOT(in=d, out=notd);
     
-    // Compute intermediate terms
+    // OR gates
     OR(a=c, b=d, out=or1);               // or1 = c OR d
+    OR(a=notc, b=notd, out=or2);          // or2 = ¬c ∨ ¬d
+    
+    // AND gates
     AND(a=nota, b=notb, c=or1, out=term1); // term1 = ¬a ∧ ¬b ∧ (c ∨ d)
-    
-    AND(a=notc, b=notd, out=and1);        // and1 = ¬c ∧ ¬d
-    AND(a=c, b=notd, out=and2);           // and2 = c ∧ ¬d
-    OR(a=and1, b=and2, out=or2);          // or2 = (¬c ∧ ¬d) ∨ (c ∧ ¬d)
-    AND(a=nota, b=b, c=or2, out=term2);   // term2 = ¬a ∧ b ∧ ((¬c ∧ ¬d) ∨ (c ∧ ¬d))
-    
+    AND(a=nota, b=b, c=or2, out=term2);    // term2 = ¬a ∧ b ∧ (¬c ∨ ¬d)
     AND(a=a, b=notb, c=notc, d=notd, out=term3); // term3 = a ∧ ¬b ∧ ¬c ∧ ¬d
     
-    // Final OR gate to combine all terms
+    // Final OR gate
     OR(a=term1, b=term2, c=term3, out=f);
 }
