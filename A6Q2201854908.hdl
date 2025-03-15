@@ -10,12 +10,29 @@ CHIP A6Q2201854908 {
     Not(in=d, out=notd);
 
     // AND gates for minterms
-    And(a=nota, b=notb, c=notc, d=d, out=term1); // ¬a ∧ ¬b ∧ ¬c ∧ d
-    And(a=nota, b=notb, c=c, d=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
-    And(a=nota, b=notb, c=c, d=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
-    And(a=nota, b=b, c=notc, d=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
-    And(a=nota, b=b, c=c, d=notd, out=term5);    // ¬a ∧ b ∧ c ∧ ¬d
-    And(a=a, b=notb, c=notc, d=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
+    And(a=nota, b=notb, out=term1ab); // ¬a ∧ ¬b
+    And(a=term1ab, b=notc, out=term1abc); // ¬a ∧ ¬b ∧ ¬c
+    And(a=term1abc, b=d, out=term1);    // ¬a ∧ ¬b ∧ ¬c ∧ d
+
+    And(a=nota, b=notb, out=term2ab); // ¬a ∧ ¬b
+    And(a=term2ab, b=c, out=term2abc); // ¬a ∧ ¬b ∧ c
+    And(a=term2abc, b=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
+
+    And(a=nota, b=notb, out=term3ab); // ¬a ∧ ¬b
+    And(a=term3ab, b=c, out=term3abc); // ¬a ∧ ¬b ∧ c
+    And(a=term3abc, b=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
+
+    And(a=nota, b=b, out=term4ab); // ¬a ∧ b
+    And(a=term4ab, b=notc, out=term4abc); // ¬a ∧ b ∧ ¬c
+    And(a=term4abc, b=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
+
+    And(a=nota, b=b, out=term5ab); // ¬a ∧ b
+    And(a=term5ab, b=c, out=term5abc); // ¬a ∧ b ∧ c
+    And(a=term5abc, b=notd, out=term5); // ¬a ∧ b ∧ c ∧ ¬d
+
+    And(a=a, b=notb, out=term6ab); // a ∧ ¬b
+    And(a=term6ab, b=notc, out=term6abc); // a ∧ ¬b ∧ ¬c
+    And(a=term6abc, b=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
 
     // OR gates to combine all terms
     Or(a=term1, b=term2, out=or1);
