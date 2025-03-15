@@ -1,75 +1,26 @@
-// NOT Gate
-CHIP NotGate {
-    IN in;
-    OUT out;
-
-    PARTS:
-    NOT(in=in, out=out);
-}
-
-// AND Gate for Two Inputs
-CHIP AndGate {
-    IN a, b;
-    OUT out;
-
-    PARTS:
-    AND(a=a, b=b, out=out);
-}
-
-// AND Gate for Four Inputs
-CHIP And4Gate {
-    IN a, b, c, d;
-    OUT out;
-
-    PARTS:
-    AND(a=a, b=b, out=ab);
-    AND(a=c, b=d, out=cd);
-    AND(a=ab, b=cd, out=out);
-}
-
-// OR Gate for Two Inputs
-CHIP OrGate {
-    IN a, b;
-    OUT out;
-
-    PARTS:
-    OR(a=a, b=b, out=out);
-}
-
-// OR Gate for Six Inputs
-CHIP Or6Gate {
-    IN a, b, c, d, e, f;
-    OUT out;
-
-    PARTS:
-    OR(a=a, b=b, out=or1);
-    OR(a=or1, b=c, out=or2);
-    OR(a=or2, b=d, out=or3);
-    OR(a=or3, b=e, out=or4);
-    OR(a=or4, b=f, out=out);
-}
-
-// Main Circuit
 CHIP A6Q2201854908 {
     IN a, b, c, d;
     OUT f;
-
-    PARTS:
     
-    // NOT gates using NotGate chip
-    NotGate(in=a, out=nota);
-    NotGate(in=b, out=notb);
-    NotGate(in=c, out=notc);
-    NotGate(in=d, out=notd);
+    PARTS:
+    // NOT gates
+    NOT(in=a, out=nota);
+    NOT(in=b, out=notb);
+    NOT(in=c, out=notc);
+    NOT(in=d, out=notd);
 
-    // AND terms using And4Gate chip
-    And4Gate(a=nota, b=notb, c=notc, d=d, out=term1); // ¬a ∧ ¬b ∧ ¬c ∧ d
-    And4Gate(a=nota, b=notb, c=c, d=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
-    And4Gate(a=nota, b=notb, c=c, d=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
-    And4Gate(a=nota, b=b, c=notc, d=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
-    And4Gate(a=nota, b=b, c=c, d=notd, out=term5);    // ¬a ∧ b ∧ c ∧ ¬d
-    And4Gate(a=a, b=notb, c=notc, d=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
+    // AND gates for minterms
+    AND(a=nota, b=notb, c=notc, d=d, out=term1); // ¬a ∧ ¬b ∧ ¬c ∧ d
+    AND(a=nota, b=notb, c=c, d=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
+    AND(a=nota, b=notb, c=c, d=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
+    AND(a=nota, b=b, c=notc, d=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
+    AND(a=nota, b=b, c=c, d=notd, out=term5);    // ¬a ∧ b ∧ c ∧ ¬d
+    AND(a=a, b=notb, c=notc, d=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
 
-    // OR all terms using Or6Gate chip
-    Or6Gate(a=term1, b=term2, c=term3, d=term4, e=term5, f=term6, out=f);
+    // OR all terms
+    OR(a=term1, b=term2, out=or1);
+    OR(a=or1, b=term3, out=or2);
+    OR(a=or2, b=term4, out=or3);
+    OR(a=or3, b=term5, out=or4);
+    OR(a=or4, b=term6, out=f);
 }
