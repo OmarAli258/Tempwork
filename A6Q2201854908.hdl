@@ -1,27 +1,26 @@
 CHIP A6Q2201854908 {
     IN a, b, c, d;
     OUT f;
+    
     PARTS:
     
-    // Intermediate signals for the terms
-    NotA = NOT(a);
-    NotB = NOT(b);
-    NotC = NOT(c);
-    NotD = NOT(d);
+    // NOT gates to invert inputs
+    NOT(a=a, out=nota);
+    NOT(b=b, out=notb);
+    NOT(c=c, out=notc);
+    NOT(d=d, out=notd);
     
-    // Term 1: ¬a ∧ ¬b ∧ (d ∨ c)
-    Or1 = OR(c, d);
-    Term1 = AND(NotA, NotB, Or1);
+    // Compute intermediate terms
+    OR(a=c, b=d, out=or1);               // or1 = c OR d
+    AND(a=nota, b=notb, c=or1, out=term1); // term1 = ¬a ∧ ¬b ∧ (c ∨ d)
     
-    // Term 2: ¬a ∧ b ∧ (¬c ∧ ¬d ∨ c ∧ ¬d)
-    NotCAndNotD = AND(NotC, NotD);
-    CAndNotD = AND(c, NotD);
-    Or2 = OR(NotCAndNotD, CAndNotD);
-    Term2 = AND(NotA, b, Or2);
+    AND(a=notc, b=notd, out=and1);        // and1 = ¬c ∧ ¬d
+    AND(a=c, b=notd, out=and2);           // and2 = c ∧ ¬d
+    OR(a=and1, b=and2, out=or2);          // or2 = (¬c ∧ ¬d) ∨ (c ∧ ¬d)
+    AND(a=nota, b=b, c=or2, out=term2);   // term2 = ¬a ∧ b ∧ ((¬c ∧ ¬d) ∨ (c ∧ ¬d))
     
-    // Term 3: a ∧ ¬b ∧ ¬c ∧ ¬d
-    Term3 = AND(a, NotB, NotC, NotD);
+    AND(a=a, b=notb, c=notc, d=notd, out=term3); // term3 = a ∧ ¬b ∧ ¬c ∧ ¬d
     
-    // Final OR to combine all terms
-    f = OR(Term1, Term2, Term3);
+    // Final OR gate to combine all terms
+    OR(a=term1, b=term2, c=term3, out=f);
 }
