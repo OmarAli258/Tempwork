@@ -4,23 +4,23 @@ CHIP A6Q2201854908 {
     
     PARTS:
     // NOT gates
-    NOT(in=a, out=nota);
-    NOT(in=b, out=notb);
-    NOT(in=c, out=notc);
-    NOT(in=d, out=notd);
+    Not(in=a, out=nota);
+    Not(in=b, out=notb);
+    Not(in=c, out=notc);
+    Not(in=d, out=notd);
 
     // AND gates for minterms
-    AND(a=nota, b=notb, c=notc, d=d, out=term1); // ¬a ∧ ¬b ∧ ¬c ∧ d
-    AND(a=nota, b=notb, c=c, d=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
-    AND(a=nota, b=notb, c=c, d=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
-    AND(a=nota, b=b, c=notc, d=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
-    AND(a=nota, b=b, c=c, d=notd, out=term5);    // ¬a ∧ b ∧ c ∧ ¬d
-    AND(a=a, b=notb, c=notc, d=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
+    And(a=nota, b=notb, c=notc, d=d, out=term1); // ¬a ∧ ¬b ∧ ¬c ∧ d
+    And(a=nota, b=notb, c=c, d=notd, out=term2); // ¬a ∧ ¬b ∧ c ∧ ¬d
+    And(a=nota, b=notb, c=c, d=d, out=term3);    // ¬a ∧ ¬b ∧ c ∧ d
+    And(a=nota, b=b, c=notc, d=notd, out=term4); // ¬a ∧ b ∧ ¬c ∧ ¬d
+    And(a=nota, b=b, c=c, d=notd, out=term5);    // ¬a ∧ b ∧ c ∧ ¬d
+    And(a=a, b=notb, c=notc, d=notd, out=term6); // a ∧ ¬b ∧ ¬c ∧ ¬d
 
-    // OR all terms
-    OR(a=term1, b=term2, out=or1);
-    OR(a=or1, b=term3, out=or2);
-    OR(a=or2, b=term4, out=or3);
-    OR(a=or3, b=term5, out=or4);
-    OR(a=or4, b=term6, out=f);
+    // OR gates to combine all terms
+    Or(a=term1, b=term2, out=or1);
+    Or(a=or1, b=term3, out=or2);
+    Or(a=or2, b=term4, out=or3);
+    Or(a=or3, b=term5, out=or4);
+    Or(a=or4, b=term6, out=f);
 }
