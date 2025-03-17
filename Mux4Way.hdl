@@ -1,4 +1,3 @@
-
 CHIP Mux4Way {
     IN a, b, c, d, sel[2];
     OUT out;
